@@ -24,6 +24,8 @@ module.exports = async function pg() {
         });
         await init(db);
         return db;
+
+        
     } catch (error) {
         console.log("SQL_ERROR:", error);
     }
