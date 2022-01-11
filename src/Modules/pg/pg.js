@@ -2,7 +2,6 @@ const { Sequelize } = require("sequelize");
 const init = require("./init");
 const Relations = require("../../Models/Relations");
 
-
 if(!process.env.PG_URL) {
     throw new Error("PG URL NOT FOUND");
 }
@@ -17,8 +16,7 @@ module.exports = async function pg() {
 
 		let db = {};
 
-
-        await Relations(db);
+       await Relations(db);
         await sequelize.sync({
             force: false,
         });

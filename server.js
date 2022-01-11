@@ -1,12 +1,14 @@
 require("dotenv").config();
+
 const express = require("express");
 const pg = require("./src/Modules/pg/pg");
 const { ErrorHandlerMiddleware } = require("./src/Helpers/CustomError");
 const { customErrorMiddleware } = require("./src/Middlewares/CustomErrorMiddleware");
 const Routes = require("./src/Routes/index");
 const cors = require("cors");
-const app = express();
 
+
+const app = express();
 const port = process.env.port || 7070;
 
 async function server() {
@@ -29,10 +31,13 @@ async function server() {
       next();
     });
 
-    app.use(CustomErrorMiddleware);
+    app.use(customErrorMiddleware);
     app.use("./v1", Routes);
-    app.use(errorHandlerMiddleware);
+    app.use(ErrorHandlerMiddleware);
+    
   } catch (error) {
       console.log(`Server Error: ${error.message}`);
   }
 }
+
+server();
