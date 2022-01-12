@@ -10,7 +10,7 @@ module.exports = async function init(db) {
             user_password: generateCrypt(process.env.ADMIN_PASSWORD)
         })
 
-        console.log(superAdmin);
+        // console.log(superAdmin);
     }
 
 }
