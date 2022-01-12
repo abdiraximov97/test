@@ -17,7 +17,10 @@ module.exports = async function AuthMiddleware(req, res, next) {
                 model: req.db.users
             },
             raw: true
-        }) 
+        });
+
+        console.log(data);
+        console.log(token);
 
         if(!session) throw new res.error(401, "Ro'yxatdan o'tmagansiz!")
 
