@@ -32,7 +32,7 @@ async function server() {
     });
 
     app.use(customErrorMiddleware);
-    app.use("./v1", Routes);
+    app.use("/v1", Routes);
     app.use(ErrorHandlerMiddleware);
     
   } catch (error) {

@@ -1,12 +1,12 @@
 
-const { generateCrypt } = require("../Modules/bcrypt");
 const { compareCrypt } = require("../Modules/bcrypt");
 const { createToken } = require("../Modules/jsonwebtoken");
 const { AdminLoginValidation } = require("../Validations/AdminValidation");
 
 module.exports = class UserController {
-    static async AdminLoginValidation(req, res, next) {
+    static async AdminLoginController(req, res, next) {
         try {
+            console.log(req.body);
             const data = await AdminLoginValidation(req.body, res.error);
             
             const admin = req.db.users.findOne({
@@ -35,6 +35,8 @@ module.exports = class UserController {
             const token = await createToken({
                 session_id: sessions.dataValues.session_id,
             });
+
+            console.log(token);
 
             res.status(201).json({
                 ok: true,
