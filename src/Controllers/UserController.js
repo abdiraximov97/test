@@ -4,18 +4,18 @@ const { createToken } = require("../Modules/jsonwebtoken");
 const { AdminLoginValidation } = require("../Validations/AdminValidation");
 
 module.exports = class UserController {
-    static async AdminLoginController(req, res, next) {
+    static async AdminLoginPostController(req, res, next) {
         try {
-            console.log(req.body);
+
             const data = await AdminLoginValidation(req.body, res.error);
-            
-            const admin = req.db.users.findOne({
+ 
+            const admin = await req.db.users.findOne({
                 where: {
                     user_login: data.user_login,
                 },
                 raw: true,
             });
-
+            console.log(admin);
             if(!admin) throw new res.error(404, "Login xato!");
 
             const isTrue = compareCrypt(
@@ -32,8 +32,15 @@ module.exports = class UserController {
                 }
             });
 
+            const session = await req.db.sessions.create({
+				session_user_agent: req.headers["user-agent"] || "Unknown",
+				user_id: admin.user_id,
+			});
+
+            console.log("Session: " + session);
+
             const token = await createToken({
-                session_id: sessions.dataValues.session_id,
+                session_id: session.dataValues.session_id,
             });
 
             console.log(token);
