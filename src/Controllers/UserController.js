@@ -2,7 +2,7 @@
 const { compareCrypt } = require("../Modules/bcrypt");
 const { createToken } = require("../Modules/jsonwebtoken");
 const { AdminLoginValidation } = require("../Validations/AdminValidation");
-
+const permissionChecker = require("../Helpers/PermissionChecker");
 module.exports = class UserController {
     static async AdminLoginPostController(req, res, next) {
         try {
@@ -56,6 +56,15 @@ module.exports = class UserController {
         } catch (error) {
             console.error("UserController Error:", error);
             next(error)
+        }
+    };
+    static async userGetController(req, res, next) {
+        try {
+            let x =  permissionChecker("admin", req.user_permissions, res.error);
+            console.log(x);
+        } catch (error) {
+            console.error("UserGetController:", error);
+            next(error);
         }
     }
 } 
