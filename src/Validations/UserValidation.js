@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 module.exports = class UserValidations {
-  static async AdminLoginValidation(data, CustomError) {
+  static async UserPostValidation(data, CustomError) {
     return await Joi.object({
       user_name: Joi.string()
         .min(4)

@@ -8,8 +8,8 @@ module.exports = class UserController {
         try {
 
             const data = await AdminLoginValidation(req.body, res.error);
- 
-            const admin = await req.db.users.findOne({
+
+            const admin = await req.db.admin.findOne({
                 where: {
                     user_login: data.user_login,
                 },
