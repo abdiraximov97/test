@@ -18,12 +18,12 @@ async function server() {
     app.listen(port, () => {
       console.log(`SERVER READY AT ${port}`);
     });
-
     app.use(cors());
     app.use(express.json());
 
-    app.use(async (req, res, next) => {
-      req.db = await db;
+     app.use(async (req, res, next) => {
+
+      req.db = db;
       next();
     });
 
@@ -39,6 +39,9 @@ async function server() {
   } catch (error) {
     console.log(`Server Error: ${error.message}`);
   }
+  // finally{
+  //   app.use("/v1", Routes);
+  // }
 }
 
 server();

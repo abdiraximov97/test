@@ -8,16 +8,16 @@ module.exports = class UserValidations {
         .max(64)
         .required()
         .error(new CustomError(400, "Login xato!")),
-      user_name: Joi.string()
-        .min(4)
-        .max(128)
-        .required()
-        .error(new CustomError(400, "Ism xato!")),
       user_password: Joi.string()
         .required()
         .min(4)
         .max(64)
         .error(new CustomError(400, "Parol xato!")),
+      user_name: Joi.string()
+        .min(4)
+        .max(128)
+        .required()
+        .error(new CustomError(400, "Ism xato!")),
       user_email: Joi.string()
         .email()
         .required()
@@ -27,7 +27,7 @@ module.exports = class UserValidations {
         .valid("male", "female")
         .required()
         .error(new CustomError(400, "Jins noto'g'ri!")),
-      phone: joi
+      user_phone: joi
         .string()
         .required()
         .error(new CustomError(400, "Telefon raqam noto'g'ri"))
