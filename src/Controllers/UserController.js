@@ -1,21 +1,23 @@
-
 const { compareCrypt } = require("../Modules/bcrypt");
 const { createToken } = require("../Modules/jsonwebtoken");
 const { AdminLoginValidation } = require("../Validations/AdminValidation");
 const permissionChecker = require("../Helpers/PermissionChecker");
+
 module.exports = class UserController {
     static async AdminLoginPostController(req, res, next) {
         try {
 
             const data = await AdminLoginValidation(req.body, res.error);
 
-            const admin = await req.db.admin.findOne({
+            const admin = await req.db.users.findOne({
                 where: {
                     user_login: data.user_login,
                 },
                 raw: true,
             });
+
             console.log(admin);
+
             if(!admin) throw new res.error(404, "Login xato!");
 
             const isTrue = compareCrypt(
@@ -68,3 +70,4 @@ module.exports = class UserController {
         }
     }
 } 
+

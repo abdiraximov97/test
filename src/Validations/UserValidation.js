@@ -3,6 +3,11 @@ const Joi = require("joi");
 module.exports = class UserValidations {
   static async UserPostValidation(data, CustomError) {
     return await Joi.object({
+      user_login: Joi.string()
+        .min(4)
+        .max(64)
+        .required()
+        .error(new CustomError(400, "Login xato!")),
       user_name: Joi.string()
         .min(4)
         .max(128)
