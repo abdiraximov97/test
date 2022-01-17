@@ -1,13 +1,16 @@
 const { compareCrypt } = require("../Modules/bcrypt");
 const { createToken } = require("../Modules/jsonwebtoken");
 const { AdminLoginValidation } = require("../Validations/AdminValidation");
-const permissionChecker = require("../Helpers/PermissionChecker");
+// const permissionChecker = require("../Helpers/PermissionChecker");
 
 module.exports = class UserController {
     static async AdminLoginPostController(req, res, next) {
         try {
 
             const data = await AdminLoginValidation(req.body, res.error);
+            
+            console.log(data);
+            console.log(req.db);
 
             const admin = await req.db.users.findOne({
                 where: {
@@ -62,8 +65,8 @@ module.exports = class UserController {
     };
     static async userGetController(req, res, next) {
         try {
-            let x =  permissionChecker("admin", req.user_permissions, res.error);
-            console.log(x);
+            // let x =  permissionChecker("admin", req.user_permissions, res.error);
+            // console.log(x);
         } catch (error) {
             console.error("UserGetController:", error);
             next(error);
