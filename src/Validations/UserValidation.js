@@ -22,8 +22,7 @@ module.exports = class UserValidations {
         .valid("male", "female")
         .required()
         .error(new CustomError(400, "Jins noto'g'ri!")),
-      user_phone: joi
-        .string()
+      user_phone: Joi.string()
         .required()
         .error(new CustomError(400, "Telefon raqam noto'g'ri"))
         .regex(/^998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/),

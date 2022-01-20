@@ -53,6 +53,4 @@ module.exports = class AdminController {
       console.error("DeleteBanController error: ", error);
     };
   };
-
-  
 };
