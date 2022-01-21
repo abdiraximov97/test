@@ -1,7 +1,7 @@
 const { compareCrypt, generateCrypt } = require("../Modules/bcrypt");
 const { createToken } = require("../Modules/jsonwebtoken");
 const { UserLoginValidation, UserCreateAccountValidation } = require("../Validations/UserValidation");
-
+const email = require("../Modules/email");
 // const permissionChecker = require("../Helpers/PermissionChecker");
 
 module.exports = class UserController {
@@ -40,8 +40,9 @@ module.exports = class UserController {
 
             const token = await createToken({
                 session_id: session.dataValues.session_id,
+                user_role: user.user_role || "user",
             });
-
+l
             res.status(201).json({
                 ok: true,
                 message: "Logged succesfully",
@@ -58,21 +59,21 @@ module.exports = class UserController {
     static async UserCreateAccountPostController(req, res, next) {
         try {
             const data = await UserCreateAccountValidation(req.body, res.error);
-            console.log(req.db.users);
- 
+            
             const user = await req.db.users.create({
                 ...data,
                 user_password: generateCrypt(data.user_password),
             });
-            console.log(user);
-            const session = await req.db.session.create({
+            console.log("User: ", user);
+            
+            const session = await req.db.sessions.create({
                 session_user_agent: req.headers["user-agent"] || "Unknown",
                 user_id: user.dataValues.user_id,
             });
 
             console.log("sessions " +  session);
 
-            const token = createToken({
+            const token = await createToken({
                 session_id: session.dataValues.session_id,
                 role: "user",
             });
