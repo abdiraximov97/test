@@ -14,6 +14,6 @@ module.exports = async function init(db) {
             user_role: process.env.ADMIN_ROLE,
         })
 
-        console.log(superAdmin);
+        // console.log(superAdmin);
     }
 }

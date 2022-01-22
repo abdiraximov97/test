@@ -42,7 +42,7 @@ module.exports = class UserController {
                 session_id: session.dataValues.session_id,
                 user_role: user.user_role || "user",
             });
-l
+
             res.status(201).json({
                 ok: true,
                 message: "Logged succesfully",
@@ -64,21 +64,24 @@ l
                 ...data,
                 user_password: generateCrypt(data.user_password),
             });
-            console.log("User: ", user);
             
             const session = await req.db.sessions.create({
                 session_user_agent: req.headers["user-agent"] || "Unknown",
                 user_id: user.dataValues.user_id,
             });
 
-            console.log("sessions " +  session);
-
             const token = await createToken({
                 session_id: session.dataValues.session_id,
                 role: "user",
             });
 
-            console.log("token" + token);
+            const attempt =  await req.db.attempts.destroy({
+                where: {
+                    user_id: user.user_id,
+                },
+            });
+
+            console.log("Attempt: ", attempt);
 
             await res.status(201).json({
                 ok: true,
