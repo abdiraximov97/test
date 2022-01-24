@@ -5,6 +5,9 @@ const email = require("../Modules/email");
 // const permissionChecker = require("../Helpers/PermissionChecker");
 
 module.exports = class UserController {
+
+    // ro'yxatdan o'tgan foydalanuvchi saytda email va parol orqali kirishi 
+
     static async UserLoginPostController(req, res, next) {
         try {
 
@@ -43,6 +46,14 @@ module.exports = class UserController {
                 user_role: user.user_role || "user",
             });
 
+            const attempt =  await req.db.attempts.destroy({
+                where: {
+                    user_id: user.user_id,
+                },
+            });
+
+            console.log("Attempt: ", attempt);
+
             res.status(201).json({
                 ok: true,
                 message: "Logged succesfully",
@@ -56,6 +67,9 @@ module.exports = class UserController {
             next(error)
         }
     };
+
+    // foydalanuvchi saytdan ro'yxatdan o'tishi
+
     static async UserCreateAccountPostController(req, res, next) {
         try {
             const data = await UserCreateAccountValidation(req.body, res.error);
@@ -75,14 +89,6 @@ module.exports = class UserController {
                 role: "user",
             });
 
-            const attempt =  await req.db.attempts.destroy({
-                where: {
-                    user_id: user.user_id,
-                },
-            });
-
-            console.log("Attempt: ", attempt);
-
             await res.status(201).json({
                 ok: true,
                 message: "User muvaffaqiyatli qo'shildi!",
@@ -97,6 +103,15 @@ module.exports = class UserController {
 				error.code = 400;
 				error.message = "Bu email allaqachon mavjud";
 			}
+            next(error);
+        }
+    }
+
+    static async UserRecoveryPasswordSubmitPostController(req, res, next) {
+        try {
+            const data = await 
+        } catch (error) {
+            console.log("UserRecoveryPasswordSubmitPostController Error: ", error);
             next(error);
         }
     }
