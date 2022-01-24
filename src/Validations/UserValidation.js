@@ -43,4 +43,14 @@ module.exports = class UserValidations {
         .error(new CustomError(400, "Parol xato!")),
     }).validateAsync(data);
   }
+
+  static async UserForgatPasswordValidation(data, CustomError) {
+    return await Joi.object({
+      user_email: Joi.string()
+        .email()
+        .required()
+        .lowercase()
+        .error(new CustomError(400, "Email xato!")),
+    }).validateAsync(data);
+  }
 };
