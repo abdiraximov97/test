@@ -1,6 +1,7 @@
 const { CreateBanValidation } = require("../Validations/BanValidation");
 
 module.exports = class AdminController {
+  
   static async CreateBanController(req, res, next) {
     try {
       const data = await CreateBanValidation(req.body, res.error);
@@ -53,4 +54,33 @@ module.exports = class AdminController {
       console.error("DeleteBanController error: ", error);
     };
   };
+
+  static async GetAllUsersController(req, res, next) {
+    try {
+      const limit = req.query.limit || 15,
+      const offset = req.query.offset - 1 || 0,
+
+      const users = await req.db.users.findAll({
+        offset,
+        limit,
+        include: [req.db.user_bans, req.db.sessions],
+        attributes: {
+          exclude: ["user+password"],
+        }
+      });
+
+      res.status(200).json({
+        ok: true,
+        message: "OK",
+        data: {
+          users,
+        },
+      });
+
+
+    } catch (error) {
+      console.log("GetAllUsersController Error: ", error);
+      next(error);
+    }
+  }
 };
