@@ -9,7 +9,7 @@ module.exports = class UserController {
         try {
 
             const data = await UserLoginValidation(req.body, res.error);
-
+            
             const user = await req.db.users.findOne({
                 where: {
                     user_email: data.user_email,

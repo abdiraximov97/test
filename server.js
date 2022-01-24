@@ -22,7 +22,6 @@ async function server() {
     app.use(express.json());
 
      app.use(async (req, res, next) => {
-
       req.db = db;
       next();
     });
