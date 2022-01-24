@@ -18,6 +18,6 @@ module.exports.email = async function email(to, subject, mail_body, mail_html) {
             html, // html body
     });
     
-    return info
+    return info;
 };
 
